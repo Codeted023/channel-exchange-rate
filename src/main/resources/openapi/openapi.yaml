@@ -1,0 +1,92 @@
+openapi: 3.0.4
+info:
+  title: channel-exchange-rate
+  description: API to check the exchange rate.
+  version: 1.0.0
+servers:
+  - url: http://localhost/api/v1
+tags:
+  - name: exchange-rate
+    description: Get the exchange rate.
+paths:
+  /exchange:
+    get:
+      tags:
+        - exchange-rate
+      summary: Get the exchange rate.
+      parameters:
+        - name: dni
+          in: query
+          description: dni del usuario
+          required: false
+          schema:
+            type: string
+            minLength: 8
+            maxLength: 8
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseExchangeRate'
+        '400':
+          description: Request invalitate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '429':
+          description: limite de consultas alcanzado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: error server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    ResponseExchangeRate:
+      type: object
+      properties:
+        dni:
+          type: string
+          example: 12314325
+        date:
+          type: string
+          example: 01-01-1999
+        compra:
+          type: number
+          format: float
+          example: 3.527
+        venta:
+          type: number
+          format: float
+          example: 3.535
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
