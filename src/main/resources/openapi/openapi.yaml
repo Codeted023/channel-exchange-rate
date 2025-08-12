@@ -4,7 +4,7 @@ info:
   description: API to check the exchange rate.
   version: 1.0.0
 servers:
-  - url: http://localhost/api/v1
+  - url: http://localhost
 tags:
   - name: exchange-rate
     description: Get the exchange rate.
@@ -18,7 +18,7 @@ paths:
         - name: dni
           in: query
           description: dni del usuario
-          required: false
+          required: true
           schema:
             type: string
             minLength: 8
